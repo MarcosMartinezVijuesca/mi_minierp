@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Pedido, LineaPedido
+from .models import Pedido, LineaPedido #importo modelos relacionados con ventas
 
-admin.site.register(Pedido)
-admin.site.register(LineaPedido)
+
+class LineaPedidoInline(admin.TabularInline): #permite editar lineas de pedido dentro del pedido
+    model = LineaPedido #Modelo hijo (las lineas)
+    extra = 1 #filas vacias que aparecen por defecto para añadir lineas nuevas facilmente
+
+
+@admin.register(Pedido)
+class PedidoAdmin(admin.ModelAdmin):
+    inlines = [LineaPedidoInline] #Conecta las lineas con el pedido y permite crearlas y editarlas
